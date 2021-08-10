@@ -2,6 +2,7 @@ package com.example.android.navdrawertemplate
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.ViewGroup
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
@@ -11,7 +12,10 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updateLayoutParams
 import com.example.android.navdrawertemplate.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +37,22 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.appBarMain.fab) { view, windowInsets ->
+            val bottomInset = windowInsets.getInsets(WindowInsetsCompat.Type.navigationBars()).bottom
+            // Apply the insets as a margin to the view. Here the system is setting
+            // only the bottom, left, and right dimensions, but apply whichever insets are
+            // appropriate to your layout. You can also update the view padding
+            // if that's more appropriate.
+            view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = bottomInset + 48
+            }
+
+            // Return CONSUMED if you don't want the window insets to keep being
+            // passed down to descendant views.
+            WindowInsetsCompat.CONSUMED
+        }
+
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
         val navController = findNavController(R.id.nav_host_fragment_content_main)
