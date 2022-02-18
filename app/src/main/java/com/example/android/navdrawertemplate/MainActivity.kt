@@ -35,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.appBarMain.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAnchorView(binding.appBarMain.fab)
                 .setAction("Action", null).show()
         }
 
